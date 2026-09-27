@@ -455,6 +455,9 @@ button {
     color: white;
 }
 
+
+
+
 .footer-content {
     display: flex;
     justify-content: space-between;
@@ -464,4 +467,7 @@ button {
 
 .footer p {
     color: #aaa;
+
+
+
 }
