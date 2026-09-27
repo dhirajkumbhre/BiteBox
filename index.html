@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="BiteBox - Order your favourite food online."
+    >
+
+    <title>BiteBox | Food Delivery</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="container navbar">
+
+            <a href="#" class="logo">
+                Bite<span>Box</span>
+            </a>
+
+            <nav class="nav" id="nav">
+
+                <a href="#home" class="nav-link active">
+                    Home
+                </a>
+
+                <a href="#menu" class="nav-link">
+                    Menu
+                </a>
+
+                <a href="#offers" class="nav-link">
+                    Offers
+                </a>
+
+                <a href="#about" class="nav-link">
+                    About
+                </a>
+
+            </nav>
+
+            <div class="nav-actions">
+
+                <button
+                    class="icon-button"
+                    id="searchButton"
+                    aria-label="Search"
+                >
+                    🔍
+                </button>
+
+                <button
+                    class="cart-button"
+                    id="cartButton"
+                    aria-label="Shopping cart"
+                >
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Open navigation menu"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        <!-- HERO -->
+
+        <section class="hero" id="home">
+
+            <div class="container hero-content">
+
+                <div class="hero-text">
+
+                    <p class="hero-label">
+                        Delicious food, delivered fast
+                    </p>
+
+                    <h1>
+                        Your cravings,
+                        <span>our mission.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Discover delicious meals from your favourite
+                        restaurants and get them delivered right to
+                        your doorstep.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <a href="#menu" class="btn btn-primary">
+                            Explore Menu
+                        </a>
+
+                        <a href="#offers" class="btn btn-secondary">
+                            View Offers
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-image">
+
+                    <div class="hero-image-placeholder">
+                        🍔
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CATEGORIES ================= -->
+
+        <section class="categories section">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="section-label">
+                            Explore
+                        </p>
+
+                        <h2>
+                            What are you craving?
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="category-grid">
+
+                    <button class="category-card">
+                        <span class="category-icon">🍔</span>
+                        <span>Burgers</span>
+                    </button>
+
+                    <button class="category-card">
+                        <span class="category-icon">🍕</span>
+                        <span>Pizza</span>
+                    </button>
+
+                    <button class="category-card">
+                        <span class="category-icon">🍜</span>
+                        <span>Noodles</span>
+                    </button>
+
+                    <button class="category-card">
+                        <span class="category-icon">🥗</span>
+                        <span>Healthy</span>
+                    </button>
+
+                    <button class="category-card">
+                        <span class="category-icon">🍰</span>
+                        <span>Desserts</span>
+                    </button>
+
+                    <button class="category-card">
+                        <span class="category-icon">🥤</span>
+                        <span>Drinks</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MENU ================= -->
+
+        <section class="menu section" id="menu">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <p class="section-label">
+                            Our menu
+                        </p>
+
+                        <h2>
+                            Popular dishes
+                        </h2>
+
+                    </div>
+
+                    <a href="#menu" class="view-all">
+                        View all →
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="food-grid"
+                    id="foodGrid"
+                >
+                    <!-- Food cards will be generated by JavaScript -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= OFFERS ================= -->
+
+        <section class="offers section" id="offers">
+
+            <div class="container">
+
+                <div class="offer-banner">
+
+                    <div>
+
+                        <p class="section-label">
+                            Limited time
+                        </p>
+
+                        <h2>
+                            Get 20% OFF your first order
+                        </h2>
+
+                        <p>
+                            Use code
+                            <strong>WELCOME20</strong>
+                            at checkout.
+                        </p>
+
+                    </div>
+
+                    <a href="#menu" class="btn btn-primary">
+                        Order Now
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section class="about section" id="about">
+
+            <div class="container">
+
+                <div class="about-content">
+
+                    <p class="section-label">
+                        About BiteBox
+                    </p>
+
+                    <h2>
+                        Good food should never be complicated.
+                    </h2>
+
+                    <p>
+                        BiteBox makes discovering and ordering
+                        delicious food simple, fast and enjoyable.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-content">
+
+                <div>
+
+                    <a href="#" class="logo">
+                        Bite<span>Box</span>
+                    </a>
+
+                    <p>
+                        Your cravings, our mission.
+                    </p>
+
+                </div>
+
+                <p>
+                    © 2026 BiteBox. All rights reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= SCRIPTS ================= -->
+
+    <script src="./data/menu.js"></script>
+    <script src="./js/menu.js"></script>
+    <script src="./js/cart.js"></script>
+    <script src="./js/app.js"></script>
+
+</body>
+</html>
