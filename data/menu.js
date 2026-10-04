@@ -4,7 +4,7 @@ const menuItems = [
         name: "Classic Burger",
         category: "Burgers",
         price: 149,
-        emoji: "🍔",
+        image: "🍔",
         description: "Juicy grilled patty with fresh vegetables."
     },
     {
@@ -12,7 +12,7 @@ const menuItems = [
         name: "Margherita Pizza",
         category: "Pizza",
         price: 249,
-        emoji: "🍕",
+        image: "🍕",
         description: "Classic pizza with tomato, mozzarella and basil."
     },
     {
@@ -20,7 +20,7 @@ const menuItems = [
         name: "Chicken Noodles",
         category: "Noodles",
         price: 199,
-        emoji: "🍜",
+        image: "🍜",
         description: "Stir-fried noodles with tender chicken."
     },
     {
@@ -28,7 +28,7 @@ const menuItems = [
         name: "Fresh Garden Salad",
         category: "Healthy",
         price: 129,
-        emoji: "🥗",
+        image: "🥗",
         description: "Fresh vegetables with a light dressing."
     },
     {
@@ -36,7 +36,7 @@ const menuItems = [
         name: "Chocolate Cake",
         category: "Desserts",
         price: 159,
-        emoji: "🍰",
+        image: "🍰",
         description: "Rich and creamy chocolate cake."
     },
     {
@@ -44,7 +44,7 @@ const menuItems = [
         name: "Cold Coffee",
         category: "Drinks",
         price: 99,
-        emoji: "🥤",
+        image: "🥤",
         description: "Smooth chilled coffee with creamy foam."
     },
     {
@@ -52,7 +52,7 @@ const menuItems = [
         name: "Crispy Chicken Burger",
         category: "Burgers",
         price: 179,
-        emoji: "🍔",
+        image: "🍔",
         description: "Crispy chicken fillet with fresh lettuce."
     },
     {
@@ -60,7 +60,7 @@ const menuItems = [
         name: "Farmhouse Pizza",
         category: "Pizza",
         price: 299,
-        emoji: "🍕",
+        image: "🍕",
         description: "Loaded with fresh vegetables and cheese."
     }
 ];
