@@ -75,6 +75,20 @@ function filterByCategory(category) {
     renderMenu(filteredItems);
 }
 
+//Searches the menu using the food name or category.
+function searchMenu(searchTerm) {
+    const term = searchTerm.trim().toLowerCase();
+
+    const filteredItems = menuItems.filter((item) => {
+        return (
+            item.name.toLowerCase().includes(term) ||
+            item.category.toLowerCase().includes(term)
+        );
+    });
+
+    renderMenu(filteredItems);
+}
+
 // Handles category selection and updates the active category.
 categoryButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -88,6 +102,26 @@ categoryButtons.forEach((button) => {
 
         filterByCategory(selectedCategory);
     });
+});
+
+// Updates the menu whenever the user types in the search field.
+if (searchInput) {
+    searchInput.addEventListener("input", (event) => {
+        searchMenu(event.target.value);
+    });
+}
+
+//Handles Add to Cart clicks for dynamically created food cards.
+foodGrid.addEventListener("click", (event) => {
+    const addButton = event.target.closest(".add-button");
+
+    if (!addButton) {
+        return;
+    }
+
+    const foodId = Number(addButton.dataset.id);
+
+    addToCart(foodId);
 });
 
 // Show the complete menu when the page loads.

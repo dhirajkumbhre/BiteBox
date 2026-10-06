@@ -1,0 +1,123 @@
+[1mdiff --git a/js/cart.js b/js/cart.js[m
+[1mindex e69de29..6880459 100644[m
+[1m--- a/js/cart.js[m
+[1m+++ b/js/cart.js[m
+[36m@@ -0,0 +1,65 @@[m
+[32m+[m[32mlet cart = [];[m
+[32m+[m
+[32m+[m[32m// Saves the current cart so it remains available after a page refresh.[m
+[32m+[m[32mfunction saveCart() {[m
+[32m+[m[32m    localStorage.setItem("bitebox-cart", JSON.stringify(cart));[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// Loads the previous cart when the application starts.[m
+[32m+[m[32mfunction loadCart() {[m
+[32m+[m[32m    const savedCart = localStorage.getItem("bitebox-cart");[m
+[32m+[m
+[32m+[m[32m    if (!savedCart) {[m
+[32m+[m[32m        return;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    try {[m
+[32m+[m[32m        cart = JSON.parse(savedCart);[m
+[32m+[m[32m    } catch (error) {[m
+[32m+[m[32m        cart = [];[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// Adds a food item to the cart or increases its quantity.[m
+[32m+[m[32mfunction addToCart(foodId) {[m
+[32m+[m[32m    const foodItem = menuItems.find((item) => {[m
+[32m+[m[32m        return item.id === foodId;[m
+[32m+[m[32m    });[m
+[32m+[m
+[32m+[m[32m    if (!foodItem) {[m
+[32m+[m[32m        return;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    const existingItem = cart.find((item) => {[m
+[32m+[m[32m        return item.id === foodId;[m
+[32m+[m[32m    });[m
+[32m+[m
+[32m+[m[32m    if (existingItem) {[m
+[32m+[m[32m        existingItem.quantity += 1;[m
+[32m+[m[32m    } else {[m
+[32m+[m[32m        cart.push({[m
+[32m+[m[32m            ...foodItem,[m
+[32m+[m[32m            quantity: 1[m
+[32m+[m[32m        });[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    saveCart();[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// Removes a food item completely from the cart.[m
+[32m+[m[32mfunction removeFromCart(foodId) {[m
+[32m+[m[32m    cart = cart.filter((item) => {[m
+[32m+[m[32m        return item.id !== foodId;[m
+[32m+[m[32m    });[m
+[32m+[m
+[32m+[m[32m    saveCart();[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// Returns the total number of items currently in the cart.[m
+[32m+[m[32mfunction getCartItemCount() {[m
+[32m+[m[32m    return cart.reduce((total, item) => {[m
+[32m+[m[32m        return total + item.quantity;[m
+[32m+[m[32m    }, 0);[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mloadCart();[m
+\ No newline at end of file[m
+[1mdiff --git a/js/menu.js b/js/menu.js[m
+[1mindex 79e1a9e..351f52d 100644[m
+[1m--- a/js/menu.js[m
+[1m+++ b/js/menu.js[m
+[36m@@ -75,6 +75,20 @@[m [mfunction filterByCategory(category) {[m
+     renderMenu(filteredItems);[m
+ }[m
+ [m
+[32m+[m[32m//Searches the menu using the food name or category.[m
+[32m+[m[32mfunction searchMenu(searchTerm) {[m
+[32m+[m[32m    const term = searchTerm.trim().toLowerCase();[m
+[32m+[m
+[32m+[m[32m    const filteredItems = menuItems.filter((item) => {[m
+[32m+[m[32m        return ([m
+[32m+[m[32m            item.name.toLowerCase().includes(term) ||[m
+[32m+[m[32m            item.category.toLowerCase().includes(term)[m
+[32m+[m[32m        );[m
+[32m+[m[32m    });[m
+[32m+[m
+[32m+[m[32m    renderMenu(filteredItems);[m
+[32m+[m[32m}[m
+[32m+[m
+ // Handles category selection and updates the active category.[m
+ categoryButtons.forEach((button) => {[m
+     button.addEventListener("click", () => {[m
+[36m@@ -90,5 +104,25 @@[m [mcategoryButtons.forEach((button) => {[m
+     });[m
+ });[m
+ [m
+[32m+[m[32m// Updates the menu whenever the user types in the search field.[m
+[32m+[m[32mif (searchInput) {[m
+[32m+[m[32m    searchInput.addEventListener("input", (event) => {[m
+[32m+[m[32m        searchMenu(event.target.value);[m
+[32m+[m[32m    });[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m//Handles Add to Cart clicks for dynamically created food cards.[m
+[32m+[m[32mfoodGrid.addEventListener("click", (event) => {[m
+[32m+[m[32m    const addButton = event.target.closest(".add-button");[m
+[32m+[m
+[32m+[m[32m    if (!addButton) {[m
+[32m+[m[32m        return;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    const foodId = Number(addButton.dataset.id);[m
+[32m+[m
+[32m+[m[32m    addToCart(foodId);[m
+[32m+[m[32m});[m
+[32m+[m
+ // Show the complete menu when the page loads.[m
+ renderMenu(menuItems);[m
+\ No newline at end of file[m
