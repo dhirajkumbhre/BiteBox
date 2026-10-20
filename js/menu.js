@@ -75,7 +75,7 @@ function filterByCategory(category) {
     renderMenu(filteredItems);
 }
 
-//Searches the menu using the food name or category.
+// Searches the menu using the food name or category.
 function searchMenu(searchTerm) {
     const term = searchTerm.trim().toLowerCase();
 
@@ -111,7 +111,7 @@ if (searchInput) {
     });
 }
 
-//Handles Add to Cart clicks for dynamically created food cards.
+// Handles Add to Cart clicks for dynamically created food cards.
 foodGrid.addEventListener("click", (event) => {
     const addButton = event.target.closest(".add-button");
 
