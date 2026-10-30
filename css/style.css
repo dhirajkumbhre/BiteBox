@@ -489,3 +489,34 @@ button {
     transform: scale(1.08);
     background: var(--primary-dark);
 }
+
+
+/* Groups the prices together at the bottom of the cart. */
+.cart-summary {
+    margin-bottom: 18px;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+/* Makes the final amount easier to spot. */
+.grand-total {
+    padding-top: 14px;
+    margin-top: 14px;
+
+    border-top: 1px solid var(--border);
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.grand-total strong {
+    color: var(--primary);
+}

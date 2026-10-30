@@ -1,3 +1,4 @@
+
 let cart = [];
 
 const cartButton = document.getElementById("cartButton");
@@ -6,38 +7,67 @@ const cartPanel = document.getElementById("cartPanel");
 const cartClose = document.getElementById("cartClose");
 const cartOverlay = document.getElementById("cartOverlay");
 const cartItems = document.getElementById("cartItems");
-const cartSubtotal = document.getElementById("cartSubtotal");
 
-// Saves the current cart so it remains available after a page refresh.
+const cartSubtotal = document.getElementById("cartSubtotal");
+const deliveryFeeElement = document.getElementById("deliveryFee");
+const grandTotalElement = document.getElementById("grandTotal");
+
+const DELIVERY_FEE = 40;
+const FREE_DELIVERY_MINIMUM = 499;
+
+
+// Saves the cart so the items remain after a page refresh.
 function saveCart() {
     localStorage.setItem("bitebox-cart", JSON.stringify(cart));
 }
 
-// Loads the previous cart when the application starts.
+
+// Restores the saved cart when the page loads.
 function loadCart() {
     const savedCart = localStorage.getItem("bitebox-cart");
 
     if (!savedCart) {
+        cart = [];
         return;
     }
 
     try {
-        cart = JSON.parse(savedCart);
+        const parsedCart = JSON.parse(savedCart);
+
+        if (!Array.isArray(parsedCart)) {
+            cart = [];
+            return;
+        }
+
+        // Use the latest food details from menu.js.
+        cart = parsedCart
+            .filter((item) => {
+                return (
+                    item &&
+                    Number.isInteger(item.id) &&
+                    Number.isInteger(item.quantity) &&
+                    item.quantity > 0 &&
+                    menuItems.some((food) => food.id === item.id)
+                );
+            })
+            .map((item) => {
+                const foodItem = menuItems.find((food) => {
+                    return food.id === item.id;
+                });
+
+                return {
+                    ...foodItem,
+                    quantity: item.quantity
+                };
+            });
+
     } catch (error) {
         cart = [];
     }
 }
 
-// Updates the number shown beside the cart icon.
-function updateCartCount() {
-    const itemCount = getCartItemCount();
 
-    if (cartCount) {
-        cartCount.textContent = itemCount;
-    }
-}
-
-// Adds a food item to the cart or increases its quantity.
+// Adds a food item or increases its quantity if it is already in the cart.
 function addToCart(foodId) {
     const foodItem = menuItems.find((item) => {
         return item.id === foodId;
@@ -61,11 +91,11 @@ function addToCart(foodId) {
     }
 
     saveCart();
-    updateCartCount();
-    renderCart();
+    updateCartUI();
 }
 
-// Increases the quantity of a cart item.
+
+// Increases the quantity of an item already in the cart.
 function increaseQuantity(foodId) {
     const item = cart.find((cartItem) => {
         return cartItem.id === foodId;
@@ -78,11 +108,11 @@ function increaseQuantity(foodId) {
     item.quantity += 1;
 
     saveCart();
-    updateCartCount();
-    renderCart();
+    updateCartUI();
 }
 
-// Decreases the quantity of a cart item.
+
+// Decreases the quantity and removes the item if it reaches zero.
 function decreaseQuantity(foodId) {
     const item = cart.find((cartItem) => {
         return cartItem.id === foodId;
@@ -100,36 +130,80 @@ function decreaseQuantity(foodId) {
     item.quantity -= 1;
 
     saveCart();
-    updateCartCount();
-    renderCart();
+    updateCartUI();
 }
 
-// Removes a food item completely from the cart.
+
+// Removes an item completely from the cart.
 function removeFromCart(foodId) {
     cart = cart.filter((item) => {
         return item.id !== foodId;
     });
 
     saveCart();
-    updateCartCount();
-    renderCart();
+    updateCartUI();
 }
 
-// Returns the total number of items currently in the cart.
+
+// Counts individual units, not just different food types.
 function getCartItemCount() {
     return cart.reduce((total, item) => {
         return total + item.quantity;
     }, 0);
 }
 
-// Calculates the subtotal of all items in the cart.
+
+// Adds up the price of every item multiplied by its quantity.
 function getCartSubtotal() {
     return cart.reduce((total, item) => {
         return total + item.price * item.quantity;
     }, 0);
 }
 
-// Displays the current cart items in the cart panel.
+
+// Orders below ₹499 have a ₹40 delivery fee.
+function getDeliveryFee() {
+    const subtotal = getCartSubtotal();
+
+    if (subtotal === 0 || subtotal >= FREE_DELIVERY_MINIMUM) {
+        return 0;
+    }
+
+    return DELIVERY_FEE;
+}
+
+
+// Calculates the final amount the customer would pay.
+function getGrandTotal() {
+    return getCartSubtotal() + getDeliveryFee();
+}
+
+
+// Updates the number beside the cart icon.
+function updateCartCount() {
+    if (cartCount) {
+        cartCount.textContent = getCartItemCount();
+    }
+}
+
+
+// Updates the price summary shown at the bottom of the cart.
+function updateCartTotals() {
+    if (cartSubtotal) {
+        cartSubtotal.textContent = `₹${getCartSubtotal()}`;
+    }
+
+    if (deliveryFeeElement) {
+        deliveryFeeElement.textContent = `₹${getDeliveryFee()}`;
+    }
+
+    if (grandTotalElement) {
+        grandTotalElement.textContent = `₹${getGrandTotal()}`;
+    }
+}
+
+
+// Displays all current items and their quantity controls.
 function renderCart() {
     if (!cartItems) {
         return;
@@ -137,15 +211,10 @@ function renderCart() {
 
     if (cart.length === 0) {
         cartItems.innerHTML = `
-            <p class="empty-cart">
-                Your cart is empty.
-            </p>
+            <p class="empty-cart">Your cart is empty.</p>
         `;
 
-        if (cartSubtotal) {
-            cartSubtotal.textContent = "₹0";
-        }
-
+        updateCartTotals();
         return;
     }
 
@@ -162,17 +231,11 @@ function renderCart() {
             </div>
 
             <div class="cart-item-details">
+                <h3>${item.name}</h3>
 
-                <h3>
-                    ${item.name}
-                </h3>
-
-                <p>
-                    ₹${item.price}
-                </p>
+                <p>₹${item.price} each</p>
 
                 <div class="cart-item-actions">
-
                     <div class="quantity-controls">
 
                         <button
@@ -183,9 +246,7 @@ function renderCart() {
                             −
                         </button>
 
-                        <span>
-                            ${item.quantity}
-                        </span>
+                        <span>${item.quantity}</span>
 
                         <button
                             class="quantity-button increase-button"
@@ -203,33 +264,51 @@ function renderCart() {
                     >
                         Remove
                     </button>
-
                 </div>
-
             </div>
         `;
 
         cartItems.appendChild(cartItem);
     });
 
-    if (cartSubtotal) {
-        cartSubtotal.textContent = `₹${getCartSubtotal()}`;
-    }
+    updateCartTotals();
 }
 
-// Opens the cart panel.
+
+// Keeps the cart count and price summary in sync.
+function updateCartUI() {
+    updateCartCount();
+    renderCart();
+}
+
+
+// Opens the cart drawer.
 function openCart() {
+    if (!cartPanel || !cartOverlay) {
+        return;
+    }
+
     cartPanel.classList.add("open");
     cartOverlay.classList.add("show");
+
+    cartPanel.setAttribute("aria-hidden", "false");
 }
 
-// Closes the cart panel.
+
+// Closes the cart drawer.
 function closeCart() {
+    if (!cartPanel || !cartOverlay) {
+        return;
+    }
+
     cartPanel.classList.remove("open");
     cartOverlay.classList.remove("show");
+
+    cartPanel.setAttribute("aria-hidden", "true");
 }
 
-// Handles clicks on cart item buttons.
+
+// Handles quantity and remove buttons inside the cart.
 if (cartItems) {
     cartItems.addEventListener("click", (event) => {
         const button = event.target.closest("button");
@@ -242,17 +321,14 @@ if (cartItems) {
 
         if (button.classList.contains("increase-button")) {
             increaseQuantity(foodId);
-        }
-
-        if (button.classList.contains("decrease-button")) {
+        } else if (button.classList.contains("decrease-button")) {
             decreaseQuantity(foodId);
-        }
-
-        if (button.classList.contains("remove-button")) {
+        } else if (button.classList.contains("remove-button")) {
             removeFromCart(foodId);
         }
     });
 }
+
 
 if (cartButton) {
     cartButton.addEventListener("click", openCart);
@@ -266,6 +342,7 @@ if (cartOverlay) {
     cartOverlay.addEventListener("click", closeCart);
 }
 
+
+// Restore saved items and calculate their totals on page load.
 loadCart();
-updateCartCount();
-renderCart();
+updateCartUI();

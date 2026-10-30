@@ -81,6 +81,68 @@
     </header>
 
 
+    <!-- ================= SHOPPING CART ================= -->
+
+    <aside
+        class="cart-panel"
+        id="cartPanel"
+        aria-label="Shopping cart"
+        aria-hidden="true"
+    >
+
+        <div class="cart-header">
+
+            <h2>Your Cart</h2>
+
+            <button
+                class="cart-close"
+                id="cartClose"
+                aria-label="Close shopping cart"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items are displayed here by JavaScript. -->
+        </div>
+
+        <div class="cart-footer">
+
+            <div class="cart-summary">
+
+                <div class="cart-total">
+                    <span>Subtotal</span>
+                    <strong id="cartSubtotal">₹0</strong>
+                </div>
+
+                <div class="cart-total">
+                    <span>Delivery fee</span>
+                    <strong id="deliveryFee">₹0</strong>
+                </div>
+
+                <div class="cart-total grand-total">
+                    <span>Total</span>
+                    <strong id="grandTotal">₹0</strong>
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-primary checkout-button"
+                id="checkoutButton"
+            >
+                Proceed to Checkout
+            </button>
+
+        </div>
+
+    </aside>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+
     <!-- ================= MAIN ================= -->
 
     <main>
@@ -369,10 +431,10 @@
     
     <!-- ================= SCRIPTS ================= -->
 
-    <script src="./data/menu.js"></script>
-    <script src="./js/menu.js"></script>
-    <script src="./js/cart.js"></script>
-    <script src="./js/app.js"></script>
+<script src="./data/menu.js"></script>
+<script src="./js/cart.js"></script>
+<script src="./js/menu.js"></script>
+<script src="./js/app.js"></script>
 
 </body>
 </html>
